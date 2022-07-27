@@ -4,25 +4,30 @@ import { links, social } from "./data";
 import logo from "./logo.svg";
 
 const Navbar = () => {
-	const navRef = useRef(null);
+	const linksContainerRef = useRef(null);
+	const linksRef = useRef(null);
+	const [isOpen, setIsOpen] = useState(false);
 
-	const handleClick = () => {
-		navRef.current.style.height
-			? (navRef.current.style.height = "")
-			: (navRef.current.style.height = "200px");
-		console.log(navRef.current);
-	};
+	useEffect(() => {
+		const linksHeight = linksRef.current.getBoundingClientRect();
+
+		if (isOpen) {
+			linksContainerRef.current.style.height = `${linksHeight.height}px`;
+		} else {
+			linksContainerRef.current.style.height = "0px";
+		}
+	}, [isOpen]);
 
 	return (
 		<div className="nav-center">
 			<div className="nav-header">
 				<img src={logo} alt="logo" className="logo" />
-				<button onClick={handleClick} className="nav-toggle">
+				<button onClick={() => setIsOpen(!isOpen)} className="nav-toggle">
 					<FaBars />
 				</button>
 			</div>
-			<div className="links-container" ref={navRef}>
-				<ul className="links">
+			<div className="links-container" ref={linksContainerRef}>
+				<ul className="links" ref={linksRef}>
 					{links.map((link) => {
 						return (
 							<li key={link.id}>
