@@ -6,12 +6,12 @@ import { useGlobalContext } from "./context";
 const Sidebar = () => {
 	const { isSidebarOpen, closeSidebar } = useGlobalContext();
 	return (
-		<div
+		<aside
 			className={`${
 				isSidebarOpen ? "sidebar-wrapper show" : "sidebar-wrapper"
 			}`}
 		>
-			<aside className="sidebar">
+			<div className="sidebar">
 				<button onClick={closeSidebar} className="close-btn">
 					<FaTimes />
 				</button>
@@ -36,8 +36,8 @@ const Sidebar = () => {
 						);
 					})}
 				</div>
-			</aside>
-		</div>
+			</div>
+		</aside>
 	);
 };
 
