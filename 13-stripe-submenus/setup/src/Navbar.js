@@ -12,8 +12,15 @@ const Navbar = () => {
 		const bottom = tempBtn.bottom - 3;
 		openSubmenu(page, { center, bottom });
 	};
+
+	const handleSubmenu = (e) => {
+		if (!e.target.classList.contains("link-btn")) {
+			closeSubmenu();
+		}
+	};
+
 	return (
-		<nav className="nav">
+		<nav className="nav" onMouseOver={handleSubmenu}>
 			<div className="nav-center">
 				<div className="nav-header">
 					<img src={logo} alt="logo" className="nav-logo" />
@@ -22,16 +29,6 @@ const Navbar = () => {
 					</button>
 				</div>
 				<ul className="nav-links">
-					{/* {sublinks.map((sublink, index) => {
-						console.log(sublink);
-						const { page, links } = sublink;
-						console.log(page);
-						return (
-							<li key={index}>
-								<button className="link-btn">{page}</button>
-							</li>
-						);
-					})} */}
 					<li>
 						<button className="link-btn" onMouseOver={displaySubmenu}>
 							products
