@@ -5,10 +5,8 @@ import SearchForm from "../components/SearchForm";
 const Home = () => {
 	return (
 		<main>
-			<section className="section search">
-				<SearchForm />
-				<CocktailList />
-			</section>
+			<SearchForm />
+			<CocktailList />
 		</main>
 	);
 };
