@@ -1,13 +1,16 @@
-import React from 'react'
-import CocktailList from '../components/CocktailList'
-import SearchForm from '../components/SearchForm'
+import React from "react";
+import CocktailList from "../components/CocktailList";
+import SearchForm from "../components/SearchForm";
 
 const Home = () => {
-  return (
-    <div>
-      <h2>home page</h2>
-    </div>
-  )
-}
+	return (
+		<main>
+			<section className="section search">
+				<SearchForm />
+				<CocktailList />
+			</section>
+		</main>
+	);
+};
 
-export default Home
+export default Home;
