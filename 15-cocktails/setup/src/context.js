@@ -13,6 +13,7 @@ const AppProvider = ({ children }) => {
 		try {
 			const response = await fetch(url + searchTerm);
 			const data = await response.json();
+			console.log(data.drinks, "data.drinks");
 			setCocktails(data.drinks);
 			setLoading(false);
 		} catch (error) {
