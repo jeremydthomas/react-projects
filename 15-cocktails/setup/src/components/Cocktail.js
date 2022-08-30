@@ -1,15 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Cocktail = ({ cocktail }) => {
-	console.log(cocktail);
-	const {
-		strDrinkThumb: img,
-		strDrink: name,
-		strGlass: glass,
-		strAlcoholic: alcohol,
-		idDrink: id,
-	} = cocktail;
+const Cocktail = ({ img, id, name, glass, alcohol }) => {
+	// const { id, name, glass, alcohol, img } = cocktail;
 	return (
 		<article className="cocktail">
 			<div className="img-container">
