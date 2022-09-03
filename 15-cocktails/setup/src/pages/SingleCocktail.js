@@ -56,9 +56,13 @@ const SingleCocktail = () => {
 		}
 		getCocktail();
 	}, [id]);
-	console.log(cocktail);
+
 	if (loading) {
 		return <Loading />;
+	}
+
+	if (!cocktail) {
+		return <h2 className="section-title">no cocktail to display</h2>;
 	}
 
 	return (
@@ -94,9 +98,9 @@ const SingleCocktail = () => {
 					</p>
 					<p>
 						<span className="drink-data">ingredients: </span>
-						{cocktail.ingredients.map((ingredient, index) => (
-							<span key={index}>{ingredient}</span>
-						))}
+						{cocktail.ingredients.map((ingredient, index) => {
+							return ingredient ? <span key={index}>{ingredient}</span> : null;
+						})}
 					</p>
 				</div>
 			</div>
