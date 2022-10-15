@@ -65,13 +65,16 @@ function App() {
 			setValue(person[newValue]);
 		}
 	};
-
 	return (
 		<main>
 			<div className="block bcg-black"></div>
 			<div className="block">
 				<div className="container">
-					<img src={image} alt={title} className="user-img" />
+					<img
+						src={(person && image) || defaultImage}
+						alt={title}
+						className="user-img"
+					/>
 					<p className="user-title">My {title} is</p>
 					<p className="user-value">{value}</p>
 					<div className="values-list">
