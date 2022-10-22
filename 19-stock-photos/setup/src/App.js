@@ -65,7 +65,7 @@ function App() {
 						return <Photo key={pic.id} {...pic} />;
 					})}
 				</div>
-				{loading && <h2 className="loading"> Loading....</h2>}
+				{loading && <h2 className="loading"> Loading.....</h2>}
 			</section>
 		</main>
 	);
