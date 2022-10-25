@@ -6,22 +6,47 @@ const mainUrl = `https://api.unsplash.com/photos/`;
 const searchUrl = `https://api.unsplash.com/search/photos/`;
 
 function App() {
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [pics, setPics] = useState([]);
 	const [value, setValue] = useState("");
+	const [page, setPage] = useState(0);
 
 	const getPics = async () => {
+		setLoading(true);
 		let url;
-		url = `${mainUrl}${clientID}`;
-		const response = await fetch(url);
-		const data = await response.json();
-		setPics(data);
-		setLoading(false);
+		const urlPage = `&page=${page}`;
+		const urlQuery = `&query=${value}`;
+
+		if (value) {
+			url = `${searchUrl}${clientID}${urlPage}${urlQuery}`;
+		} else {
+			url = `${mainUrl}${clientID}${urlPage}`;
+		}
+
+		try {
+			const response = await fetch(url);
+			const data = await response.json();
+
+			setPics((oldPics) => {
+				if (value && page === 1) {
+					return data.results;
+				} else if (value) {
+					const { results } = data;
+					return [...oldPics, ...results];
+				} else {
+					return [...oldPics, ...data];
+				}
+			});
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
 	};
 
 	useEffect(() => {
 		getPics();
-	}, []);
+	}, [page]);
 
 	useEffect(() => {
 		const event = window.addEventListener("scroll", () => {
@@ -29,7 +54,9 @@ function App() {
 			const scrollY = window.scrollY;
 			const bodyHeight = document.body.scrollHeight;
 			if (!loading && innerHeight + scrollY >= bodyHeight - 3) {
-				console.log("dingding");
+				setPage((oldPage) => {
+					return oldPage + 1;
+				});
 			}
 		});
 		return () => window.removeEventListener("scroll", event);
@@ -37,17 +64,7 @@ function App() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		const searchPics = async () => {
-			let url;
-			url = `${searchUrl}${clientID}?page=2&query=${value}`;
-			const response = await fetch(url);
-			const data = await response.json();
-			const { results } = data;
-			setPics(results);
-			setLoading(false);
-		};
-		searchPics();
+		setPage(1);
 	};
 
 	return (
