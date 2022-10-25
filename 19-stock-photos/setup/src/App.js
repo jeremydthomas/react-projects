@@ -15,7 +15,6 @@ function App() {
 		url = `${mainUrl}${clientID}`;
 		const response = await fetch(url);
 		const data = await response.json();
-		console.log(data);
 		setPics(data);
 		setLoading(false);
 	};
@@ -24,16 +23,26 @@ function App() {
 		getPics();
 	}, []);
 
+	useEffect(() => {
+		const event = window.addEventListener("scroll", () => {
+			const innerHeight = window.innerHeight;
+			const scrollY = window.scrollY;
+			const bodyHeight = document.body.scrollHeight;
+			if (!loading && innerHeight + scrollY >= bodyHeight - 3) {
+				console.log("dingding");
+			}
+		});
+		return () => window.removeEventListener("scroll", event);
+	}, []);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
 		const searchPics = async () => {
 			let url;
 			url = `${searchUrl}${clientID}?page=2&query=${value}`;
-			console.log(url);
 			const response = await fetch(url);
 			const data = await response.json();
-			console.log(data.results, "search");
 			const { results } = data;
 			setPics(results);
 			setLoading(false);
@@ -61,7 +70,6 @@ function App() {
 			<section className="photos">
 				<div className="photos-center">
 					{pics.map((pic) => {
-						console.log(pic);
 						return <Photo key={pic.id} {...pic} />;
 					})}
 				</div>
