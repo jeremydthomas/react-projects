@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import Photo from "./Photo";
 const clientID = `?client_id=${process.env.REACT_APP_ACCESS_KEY}`;
@@ -9,7 +9,9 @@ function App() {
 	const [loading, setLoading] = useState(false);
 	const [pics, setPics] = useState([]);
 	const [value, setValue] = useState("");
-	const [page, setPage] = useState(0);
+	const [page, setPage] = useState(1);
+	const [newImages, setNewImages] = useState(false);
+	const mounted = useRef(false);
 
 	const getPics = async () => {
 		setLoading(true);
@@ -37,9 +39,10 @@ function App() {
 					return [...oldPics, ...data];
 				}
 			});
+			setNewImages(false);
 			setLoading(false);
 		} catch (error) {
-			console.log(error);
+			setLoading(false);
 			setLoading(false);
 		}
 	};
@@ -49,21 +52,36 @@ function App() {
 	}, [page]);
 
 	useEffect(() => {
-		const event = window.addEventListener("scroll", () => {
-			const innerHeight = window.innerHeight;
-			const scrollY = window.scrollY;
-			const bodyHeight = document.body.scrollHeight;
-			if (!loading && innerHeight + scrollY >= bodyHeight - 3) {
-				setPage((oldPage) => {
-					return oldPage + 1;
-				});
-			}
-		});
-		return () => window.removeEventListener("scroll", event);
+		if (!mounted.current) {
+			mounted.current = true;
+			return;
+		}
+		if (!newImages) return;
+		if (loading) return;
+		setPage((oldPage) => oldPage + 1);
+	}, [newImages]);
+
+	const event = () => {
+		if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 3) {
+			setNewImages(true);
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener("scroll", event);
+
+		return () => {
+			window.removeEventListener("scroll", event);
+		};
 	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		if (!value) return;
+		if (page === 1) {
+			getPics();
+			return;
+		}
 		setPage(1);
 	};
 
