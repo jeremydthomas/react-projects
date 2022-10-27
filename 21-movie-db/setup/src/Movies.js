@@ -5,7 +5,11 @@ const url =
 	"https://upload.wikimedia.org/wikipedia/commons/f/fc/No_picture_available.png";
 
 const Movies = () => {
-	const { movieData } = useGlobalContext();
+	const { movieData, isLoading } = useGlobalContext();
+
+	if (isLoading) {
+		return <div className="loading"></div>;
+	}
 
 	return (
 		<section className="movies">
@@ -17,7 +21,10 @@ const Movies = () => {
 						to={`movies/${items.imdbID}`}
 					>
 						<article>
-							<img src={items.Poster || url} alt={items.Title} />
+							<img
+								src={items.Poster === "N/A" ? url : items.Poster}
+								alt={items.Title}
+							/>
 							<div className="movie-info">
 								<h4 className="title">{items.Title}</h4>
 								<p>{items.Year}</p>
