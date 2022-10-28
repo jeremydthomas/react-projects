@@ -3,11 +3,7 @@ import React from "react";
 import { useGlobalContext } from "./context";
 
 const Stories = () => {
-	const { isLoading, hits } = useGlobalContext();
-	console.log(
-		"🚀 ~ file: Stories.js ~ line 7 ~ Stories ~ useGlobalContext()",
-		useGlobalContext()
-	);
+	const { isLoading, hits, removeStory } = useGlobalContext();
 
 	if (isLoading) {
 		return <div className="loading"></div>;
@@ -15,24 +11,29 @@ const Stories = () => {
 	return (
 		<section className="stories">
 			{hits.map((items) => {
-				console.log(items);
+				const { objectID, title, points, author, num_comments, url } = items;
 				return (
-					<article key={items.objectID} className="story">
-						<h4 className="title">{items.title}</h4>
+					<article key={objectID} className="story">
+						<h4 className="title">{title}</h4>
 						<p className="info">
-							{items.points} points by <span>{items.author} | </span>
-							{items.num_comments} comments
+							{points} points by <span>{author} | </span>
+							{num_comments} comments
 						</p>
 						<div>
 							<a
-								href={items.url}
+								href={url}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="read-link"
 							>
 								read more
-							</a>{" "}
-							<button className="remove-btn">remove</button>
+							</a>
+							<button
+								className="remove-btn"
+								onClick={() => removeStory(objectID)}
+							>
+								remove
+							</button>
 						</div>
 					</article>
 				);

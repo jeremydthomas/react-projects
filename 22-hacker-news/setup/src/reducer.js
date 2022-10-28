@@ -17,6 +17,13 @@ const reducer = (state, action) => {
 				hits: action.payload.hits,
 				nbPages: action.payload.nbPages,
 			};
+		case REMOVE_STORY:
+			return {
+				...state,
+				hits: state.hits.filter((items) => items.objectID !== action.payload),
+			};
+		case HANDLE_SEARCH:
+			return { ...state, value: action.payload, page: 0 };
 			break;
 
 		default:

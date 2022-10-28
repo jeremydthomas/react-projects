@@ -43,12 +43,24 @@ const AppProvider = ({ children }) => {
 		}
 	};
 
+	const removeStory = (id) => {
+		dispatch({
+			type: REMOVE_STORY,
+			payload: id,
+		});
+	};
+
+	const handleChange = (value) => {
+		console.log(value);
+		dispatch({ type: HANDLE_SEARCH, payload: value });
+	};
+
 	useEffect(() => {
 		fetchStories(`${API_ENDPOINT}query=${state.value}&page=${state.page}`);
-	}, []);
+	}, [state.value]);
 
 	return (
-		<AppContext.Provider value={{ ...state, dispatch }}>
+		<AppContext.Provider value={{ ...state, removeStory, handleChange }}>
 			{children}
 		</AppContext.Provider>
 	);
