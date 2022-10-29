@@ -51,16 +51,31 @@ const AppProvider = ({ children }) => {
 	};
 
 	const handleChange = (value) => {
-		console.log(value);
 		dispatch({ type: HANDLE_SEARCH, payload: value });
+	};
+
+	const handlePage = (value) => {
+		dispatch({ type: HANDLE_PAGE, payload: value });
+		// if (value === "inc" && state.page < state.nbPages - 1) {
+		// 	dispatch({ type: HANDLE_PAGE, payload: state.page + 1 });
+		// } else {
+		// 	return;
+		// }
+		// if (value === "dec" && state.page > 0) {
+		// 	dispatch({ type: HANDLE_PAGE, payload: state.page - 1 });
+		// } else {
+		// 	return;
+		// }
 	};
 
 	useEffect(() => {
 		fetchStories(`${API_ENDPOINT}query=${state.value}&page=${state.page}`);
-	}, [state.value]);
+	}, [state.value, state.page]);
 
 	return (
-		<AppContext.Provider value={{ ...state, removeStory, handleChange }}>
+		<AppContext.Provider
+			value={{ ...state, removeStory, handleChange, handlePage }}
+		>
 			{children}
 		</AppContext.Provider>
 	);

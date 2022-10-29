@@ -22,8 +22,25 @@ const reducer = (state, action) => {
 				...state,
 				hits: state.hits.filter((items) => items.objectID !== action.payload),
 			};
+
 		case HANDLE_SEARCH:
 			return { ...state, value: action.payload, page: 0 };
+
+		case HANDLE_PAGE:
+			if (action.payload === "dec") {
+				let prevPage = state.page - 1;
+				if (prevPage < 0) {
+					prevPage = state.nbPages - 1;
+				}
+				return { ...state, page: prevPage };
+			}
+			if (action.payload === "inc") {
+				let nextPage = state.page + 1;
+				if (nextPage > state.nbPages - 1) {
+					nextPage = 0;
+				}
+				return { ...state, page: nextPage };
+			}
 			break;
 
 		default:
