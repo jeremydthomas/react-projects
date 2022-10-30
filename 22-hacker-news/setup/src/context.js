@@ -29,10 +29,6 @@ const AppProvider = ({ children }) => {
 		try {
 			const response = await fetch(url);
 			const data = await response.json();
-			console.log(
-				"🚀 ~ file: context.js ~ line 32 ~ fetchStories ~ data",
-				data
-			);
 
 			dispatch({
 				type: SET_STORIES,
@@ -56,16 +52,6 @@ const AppProvider = ({ children }) => {
 
 	const handlePage = (value) => {
 		dispatch({ type: HANDLE_PAGE, payload: value });
-		// if (value === "inc" && state.page < state.nbPages - 1) {
-		// 	dispatch({ type: HANDLE_PAGE, payload: state.page + 1 });
-		// } else {
-		// 	return;
-		// }
-		// if (value === "dec" && state.page > 0) {
-		// 	dispatch({ type: HANDLE_PAGE, payload: state.page - 1 });
-		// } else {
-		// 	return;
-		// }
 	};
 
 	useEffect(() => {
