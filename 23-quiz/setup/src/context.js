@@ -19,7 +19,11 @@ const AppProvider = ({ children }) => {
 	const [loading, setLoading] = useState(false);
 	const [waiting, setWaiting] = useState(true);
 	const [questions, setQuestions] = useState([]);
-	const [value, setValue] = useState(10);
+	const [value, setValue] = useState({
+		amount: 10,
+		category: "sports",
+		difficulty: "easy",
+	});
 	const [index, setIndex] = useState(0);
 	const [correct, setCorrect] = useState(0);
 	const [error, setError] = useState(false);
@@ -75,6 +79,19 @@ const AppProvider = ({ children }) => {
 		setIsModalOpen(true);
 	};
 
+	const closeModal = () => {
+		setWaiting(true);
+		setCorrect(0);
+		setIsModalOpen(false);
+	};
+
+	const handleChange = (e) => {
+		setValue({ ...value, amount: e.target.value });
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+	};
 	useEffect(() => {
 		fetchData(tempUrl);
 	}, []);
@@ -93,6 +110,9 @@ const AppProvider = ({ children }) => {
 				index,
 				nextQuestion,
 				checkAnswer,
+				closeModal,
+				handleChange,
+				handleSubmit,
 			}}
 		>
 			{children}
