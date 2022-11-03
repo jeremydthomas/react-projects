@@ -2,10 +2,8 @@ import React from "react";
 import { useGlobalContext } from "./context";
 
 const SetupForm = () => {
-	const { questions, value, setValue, handleChange, handleSubmit, error } =
-		useGlobalContext();
-	console.log(questions);
-	const { category, difficulty, question, type } = questions;
+	const { value, handleChange, handleSubmit, error } = useGlobalContext();
+
 	return (
 		<main>
 			<section className="quiz quiz-small">
