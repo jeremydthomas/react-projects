@@ -86,15 +86,18 @@ const AppProvider = ({ children }) => {
 	};
 
 	const handleChange = (e) => {
-		setValue({ ...value, amount: e.target.value });
+		const name = e.target.name;
+		console.log(name, value);
+		setValue({ ...value, [name]: e.target.value });
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const url = `${API_ENDPOINT}amount=${value.amount}&category=${
+			table[value.category]
+		}&difficulty=${value.difficulty}&type=multiple`;
+		fetchData(url);
 	};
-	useEffect(() => {
-		fetchData(tempUrl);
-	}, []);
 
 	return (
 		<AppContext.Provider
